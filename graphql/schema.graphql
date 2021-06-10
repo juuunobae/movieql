@@ -1,0 +1,39 @@
+# 사용자가 뭘 할지에 대해서 정의만 해놓은 것
+# Database로 부터 정보를 얻는 것 = Query 라고 부른다.
+# Query는 정보를 받을 때만 쓰인다.
+# mutation은 서버에서나 Database, 메모리에서 정보를 바꾸는 작업을 할 때
+
+# GraphQL 서버에 어떤 mutations, 어떤 Query를 가졌는지 알려주어야 한다.
+ 
+#type Bae {
+#    name: String!
+#    age: Int!
+#    gender: String!
+#}
+
+# Query의 유형  
+# 모든 Query를 넣는다.
+#type Query{
+#    person: Bae!
+    # 어떤 사용자가 Query에 이름을 보내면 String을 보낸다는 설명을 한 것 뿐이다.
+    # Query의 기능성을 프로그래밍 해주어야 한다.
+    # resolvers.js 파일
+    # ! = isRequired(필수)
+#}
+
+type Person {
+    id: Int!
+    name: String!
+    age: Int!
+    gender: String!
+}
+
+type Query {
+    people: [Person]! 
+    # Person이 배열이다. 다수의 데이터라는 뜻
+    # ! = 필수로 리턴을 해야 한다. null이 되면 안된다.
+    person(id: Int!): Person
+    # 다수의 데이터 중에 하나의 데이터만 얻고 싶을 때는 그 데이터에만 접근하기위해서 ID가 필요하다.
+    # () 안에 ID를 정의 해준다.
+    # 필수사항을 넣지 않는다. 해당 데이터를 못 찾는 경우가 생길 수 있기 때문
+}
