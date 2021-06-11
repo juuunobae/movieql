@@ -28,7 +28,9 @@ const resolvers = {
   // Database로 갈 수도 있고 메모리로 갈 수도 있고 다른 API로 갈 수도 있다.
   Query: {
     people: () => people,
-    person: () => getById(),
+    person: (_, { id }) => getById(id), // { id } === args.id
+    // : (parent, args, context, info) 순으로 4개의 인자가 자동으로 들어간다.
+    // 사용하지 않을 인자는 _(언더바)로 입력해주면 된다.
   },
 };
 

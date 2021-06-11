@@ -2,8 +2,9 @@ import { GraphQLServer } from "graphql-yoga";
 import resolvers from "./graphql/resolvers";
 
 const server = new GraphQLServer({
-  // typeDefs = 모든 타입들에 대한 정의
+  // typeDefs = 사용할 타입들에 대한 정의
   typeDefs: "graphql/schema.graphql",
+  // resolvers = typeDefs에 의해 지정된 필드에 대한 resolver(해결?)를 정의한다.
   resolvers,
 });
 
