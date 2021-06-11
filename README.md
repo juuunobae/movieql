@@ -57,7 +57,7 @@
     resolvers,
 });
 ```
-- GraphQLServer가 Query나 Mutation의 정의(graphql.schema.graphql)를 발견하면 Resolver를 찾을 것이고 해당 함수를 실행할 것이다.
+- GraphQLServer가 Query나 Mutation의 정의(graphql.schema.graphql)를 발견하면 Resolver(resolvers)를 찾을 것이고 해당 함수를 실행할 것이다.
 ```javascript
     const getById = (id) => {
     const filteredPeople = people.filter((person) => String(id) === person.id);
