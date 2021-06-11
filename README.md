@@ -52,6 +52,7 @@
 ## 사용자가 요청하는 데이터를 응답하는 법
 - GraphQL Resolvers는 GraphQLServer에서 요청을 받는다.
 ```javascript
+    index.js
     const server = new GraphQLServer({
     typeDefs: "graphql/schema.graphql",
     resolvers,
@@ -59,9 +60,10 @@
 ```
 - GraphQLServer가 Query나 Mutation의 정의(graphql.schema.graphql)를 발견하면 Resolver(resolvers)를 찾을 것이고 해당 함수를 실행할 것이다.
 ```javascript
+    // graphql/resolvers.js
     const getById = (id) => {
-    const filteredPeople = people.filter((person) => String(id) === person.id);
-    return filteredPeople[0]; 
+        const filteredPeople = people.filter((person) => String(id) === person.id);
+        return filteredPeople[0]; 
     };
 
     const resolvers = {
