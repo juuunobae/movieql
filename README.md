@@ -49,6 +49,12 @@
 # GraphQL 동작
 - query를 보내면 graphql이 서버에서 `schema.graphql`파일에 있는 query가 정의되어 있는 `type Query`를 찾아 그 query에 맞는 Resolvers를 찾는다.
 
+## Query and Mutation
+- Query
+  - SELECT문에서 사용한다. REST에서 GET
+- Mutation
+  - INSERT, UPDATE, DELETE 연산에 사용한다. REST에서 POST, PUT, PATCH, DELETE
+
 ## 사용자가 요청하는 데이터를 응답하는 법
 - GraphQL Resolvers는 GraphQLServer에서 요청을 받는다.
 ```javascript

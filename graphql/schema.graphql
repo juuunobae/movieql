@@ -21,19 +21,34 @@
     # ! = isRequired(필수)
 #}
 
-type Person {
+#type Person {
+#    id: Int!
+#    name: String!
+#    age: Int!
+#    gender: String!
+#}
+
+#type Query {
+#    people: [Person]! 
+#    # Person이 배열이다. 다수의 데이터라는 뜻
+#    # ! = 필수로 리턴을 해야 한다. null이 되면 안된다.
+#    person(id: Int!): Person
+#    # 다수의 데이터 중에 하나의 데이터만 얻고 싶을 때는 그 데이터에만 접근하기위해서 ID가 필요하다.
+#    # () 안에 ID를 정의 해준다.
+#    # 필수사항을 넣지 않는다. 해당 데이터를 못 찾는 경우가 생길 수 있기 때문
+#}
+
+type Movie {
     id: Int!
     name: String!
-    age: Int!
-    gender: String!
+    score: Float!
 }
 
 type Query {
-    people: [Person]! 
-    # Person이 배열이다. 다수의 데이터라는 뜻
-    # ! = 필수로 리턴을 해야 한다. null이 되면 안된다.
-    person(id: Int!): Person
-    # 다수의 데이터 중에 하나의 데이터만 얻고 싶을 때는 그 데이터에만 접근하기위해서 ID가 필요하다.
-    # () 안에 ID를 정의 해준다.
-    # 필수사항을 넣지 않는다. 해당 데이터를 못 찾는 경우가 생길 수 있기 때문
+    movies: [Movie]!,
+    movie(id: Int!): Movie
+}
+
+type Mutation {
+    addMovie(name: String!, score: Int!): Movie!
 }
