@@ -32,6 +32,11 @@
 //     people: () => people,
 //     person: (_, { id }) => getById(id), // { id } === args.id
 //     // : (parent, args, context, info) 순으로 4개의 인자가 자동으로 들어간다.
+// parent: 연쇄적 resolver 호출에서 부모 resolver가 리턴한 객체
+// args: 쿼리에서 입력으로 넣은 인자.
+// context: 모든 resolver에게 전달된다. 주로 미들웨어를 통해 입력된 값들이 들어있고,
+//          로그인 정보 혹으 권한과 같이 주요 컨텍스트 관련정보를 가지고 있다.
+// info: 스키마 정보와 현재 쿼리의 특정 필드 정보를 가지고 있다.
 //     // 사용하지 않을 인자는 _(언더바)로 입력해주면 된다.
 //   },
 // };
@@ -40,7 +45,7 @@
 
 // ---------------------------------------------------
 
-import { addMovie, getId, getMovies } from "./db";
+import { addMovie, deleteMovie, getId, getMovies } from "./db";
 
 const resolvers = {
   Query: {
@@ -48,7 +53,9 @@ const resolvers = {
     movie: (_, { id }) => getId(id),
   },
   Mutation: {
+    // 인자로 받은 전달해야 될 데이터를 함수의 파라미터로 넘긴다.
     addMovie: (_, { name, score }) => addMovie(name, score),
+    deleteMovie: (_, { id }) => deleteMovie(id),
   },
 };
 

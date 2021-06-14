@@ -58,28 +58,135 @@
 ## 사용자가 요청하는 데이터를 응답하는 법
 - GraphQL Resolvers는 GraphQLServer에서 요청을 받는다.
 ```javascript
-    index.js
+    // index.js
     const server = new GraphQLServer({
     typeDefs: "graphql/schema.graphql",
     resolvers,
 });
 ```
 - GraphQLServer가 Query나 Mutation의 정의(graphql.schema.graphql)를 발견하면 Resolver(resolvers)를 찾을 것이고 해당 함수를 실행할 것이다.
+
+## Query
+### Query 작성
+- 데이터에 맞는 타입들을 정의 해준다.
+- ! = 필수로 리턴을 해야 한다. null이 되면 안된다.
+```graphql
+    # schema.graphql
+
+    type Person {
+        id: Int!
+        name: String!
+        age: Int!
+        gender: String!
+    }
+
+    type Query {
+        people: [Person]!
+        person(id: Int!): Person
+    }
+```
+- resolver함수를 통해 데이터를 가지고 오는 과정의 코드를 작성해준다.
 ```javascript
-    // graphql/resolvers.js
-    const getById = (id) => {
-        const filteredPeople = people.filter((person) => String(id) === person.id);
-        return filteredPeople[0]; 
-    };
+    // resolvers.js
 
     const resolvers = {
         // resolver가 해당하는 데이터를 찾아 응답
         Query: {
+            people: getPeople(),
             person: (_, { id }) => getById(id),
+        },
+        Mutation: {
+            ...
         }
     }
 ```
+```javascript
+    // db.js
 
+    // people = database
+
+    export const getPeople = () => people;
+
+    export const getById = (id) => {
+        const filteredPeople = people.filter((person) => String(id) === person.id);
+        return filteredPeople[0]; 
+    };
+```
+
+## Mutation
+### Mutation 정의
+```graphql
+    # schema.graphql
+    type Mutation {
+        addPeople(name: String!, age: Int!, gender: String!): Movie!
+        deletePeople(id: Int!): Boolean!
+    }
+```
+```javascript
+    // resolvers.js
+    const resolvers = {
+        Query: {
+            ...
+        },
+        Mutation: {
+            addPeople: (_, { name, age, gender }) => addPeople(name, age, gender)
+            deletePeople: (_, { id }) => deletePeople(id),
+        },
+};
+```
+```javascript
+    // db.js
+
+    export const deletePeople = (id) => {
+    const cleanPeople = people.filter((person) => person.id !== id);
+    if (people.length > cleanPeople.length) {
+        people = cleanPeople;
+        return true;
+    } else {
+        return false;
+    }
+    };
+
+    export const addPeople = (name, score) => {
+    const newPerson = {
+        id: `${people.length + 1}`,
+        name,
+        age,
+        gender
+    };
+    people.push(newPerson); 
+    return newPerson; 
+    };
+```
+### playground에서 사용하는 방법
+- 데이터 보기
+  ```graphql
+    query {
+        people {
+            name
+            age
+            gender
+        }
+    }
+  ```
+- 데이터 추가
+- people에 새로운 데이터가 추가 된다.
+    ```graphql
+        Mutation {
+            addPeople(name: "peter", age: 30, gender: "male"){
+                name
+                age
+                gender
+            }        
+        }
+    ```
+- 데이터 삭제
+- people에서 해당 데이터 삭제
+    ```graphql
+        Mutation {
+            deletePeople(id: 0)
+        }
+    ```
 # Playground
 - localhost:4000
 - graphql-yoga를 설치하면 따라오는 것이다.

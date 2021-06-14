@@ -17,7 +17,6 @@
 #    person: Bae!
     # 어떤 사용자가 Query에 이름을 보내면 String을 보낸다는 설명을 한 것 뿐이다.
     # Query의 기능성을 프로그래밍 해주어야 한다.
-    # resolvers.js 파일
     # ! = isRequired(필수)
 #}
 
@@ -45,10 +44,12 @@ type Movie {
 }
 
 type Query {
-    movies: [Movie]!,
+    movies: [Movie]!
     movie(id: Int!): Movie
 }
 
 type Mutation {
-    addMovie(name: String!, score: Int!): Movie!
+    addMovie(name: String!, score: Float!): Movie!
+    deleteMovie(id: Int!): Boolean!
+    # deleteMovie는  true나 false만 리턴하기 때문에 type이 boolean이다.
 }
