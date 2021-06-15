@@ -37,19 +37,32 @@
 #    # 필수사항을 넣지 않는다. 해당 데이터를 못 찾는 경우가 생길 수 있기 때문
 #}
 
+# type Movie {
+#     id: Int!
+#     name: String!
+#     score: Float!
+# }
+# 
+# type Query {
+#     movies: [Movie]!
+#     movie(id: Int!): Movie
+# }
+# 
+# type Mutation {
+#     addMovie(name: String!, score: Float!): Movie!
+#     deleteMovie(id: Int!): Boolean!
+#     # deleteMovie는  true나 false만 리턴하기 때문에 type이 boolean이다.
+# }
+
 type Movie {
     id: Int!
-    name: String!
-    score: Float!
+    title: String!
+    rating: Float!
+    summary: String!
+    language: String!
+    medium_cover_image: String!
 }
 
 type Query {
-    movies: [Movie]!
-    movie(id: Int!): Movie
-}
-
-type Mutation {
-    addMovie(name: String!, score: Float!): Movie!
-    deleteMovie(id: Int!): Boolean!
-    # deleteMovie는  true나 false만 리턴하기 때문에 type이 boolean이다.
+    movies(limit: Int, rating: Float): [Movie]!
 }

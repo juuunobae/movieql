@@ -45,17 +45,29 @@
 
 // ---------------------------------------------------
 
-import { addMovie, deleteMovie, getId, getMovies } from "./db";
+// import { addMovie, deleteMovie, getId, getMovies } from "./db";
+
+// const resolvers = {
+//   Query: {
+//     movies: () => getMovies(),
+//     movie: (_, { id }) => getId(id),
+//   },
+//   Mutation: {
+//     // 인자로 받은 전달해야 될 데이터를 함수의 파라미터로 넘긴다.
+//     addMovie: (_, { name, score }) => addMovie(name, score),
+//     deleteMovie: (_, { id }) => deleteMovie(id),
+//   },
+// };
+
+// export default resolvers;
+
+// -----------------------------------------------------------------------------
+
+import { getMovies } from "./db";
 
 const resolvers = {
   Query: {
-    movies: () => getMovies(),
-    movie: (_, { id }) => getId(id),
-  },
-  Mutation: {
-    // 인자로 받은 전달해야 될 데이터를 함수의 파라미터로 넘긴다.
-    addMovie: (_, { name, score }) => addMovie(name, score),
-    deleteMovie: (_, { id }) => deleteMovie(id),
+    movies: (_, { limit, rating }) => getMovies(limit, rating),
   },
 };
 
