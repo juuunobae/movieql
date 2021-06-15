@@ -97,19 +97,60 @@
 
 // ----------------------------------------------------------------------------------
 
-import fetch from "node-fetch";
+import axios from "axios";
 
-const API_URL = "https://yts.mx/api/v2/list_movies.json?";
+const BASE_URL = "https://yts.mx/api/v2/";
+const LIST_MOVIE_URL = `${BASE_URL}list_movies.json`;
+const MOVIE_DETAILS_URL = `${BASE_URL}movie_details.json`;
+const MOVIE_SUGGESTIONS_URL = `${BASE_URL}movie_suggestions.json`;
 
-export const getMovies = (limit, rating) => {
-  let REQUEST_URL = API_URL;
-  if (limit > 0) {
-    REQUEST_URL += `limit=${limit}`;
-  }
-  if (rating > 0) {
-    REQUEST_URL += `&minimum_rating=${rating}`;
-  }
-  return fetch(REQUEST_URL)
-    .then((res) => res.json)
-    .then((json) => json.data.movie);
+// 사용자 요청에서 limit과 rating을 받아 함수를 호출하고,
+// axios를 통해 사용자가 입력한 limit과 rating이 있을시 params(axios의 두번째 인자) 객체에
+// 담아 url과 함께 API 요청을 보내면 그에 해당하는 데이터들만 응답을 받을 수 있다.
+// 입력받은 limit이나 rating 값이 없으며 undefined이고, 모든 데이터를 응답 받는다.
+// aixos로 요청한 데이터에 대한 응답은 data 객체 안에 들어있다.
+// data 객체 안에서 필요한 데이터를 사용하면 된다.
+export const getMovies = async (limit, rating) => {
+  const {
+    data: {
+      data: { movies },
+    },
+    // axios 요청에 대한 응답은 data라는 이름의 객체 형태이기 때문에 위와 같이 정의하여 사용한다.
+  } = await axios(LIST_MOVIE_URL, {
+    // params = 요청과 함께 전송 될 URL 매개 변수이다.
+    // 일반객체이거나 URLSearchParams 객체여야 한다.
+    params: {
+      limit,
+      minimum_rating: rating,
+    },
+  });
+  // axios의 첫번째 인자는 API를 요청할 URL이고, 두번째 인자는 config객체이다.
+  return movies; // 응답받은 movies를 리턴한다.
+};
+
+export const getMovie = async (id) => {
+  const {
+    data: {
+      data: { movie },
+    },
+  } = await axios(MOVIE_DETAILS_URL, {
+    params: {
+      movie_id: id,
+    },
+  });
+  console.log(await axios(MOVIE_DETAILS_URL));
+  return movie;
+};
+
+export const getSuggestions = async (id) => {
+  const {
+    data: {
+      data: { movies },
+    },
+  } = await axios(MOVIE_SUGGESTIONS_URL, {
+    params: {
+      movie_id: id,
+    },
+  });
+  return movies;
 };
