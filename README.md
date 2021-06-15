@@ -191,3 +191,8 @@
 - localhost:4000
 - graphql-yoga를 설치하면 따라오는 것이다.
 - Database를 테스트 할 수 있다.
+
+# Axios
+- axios는 브라우저, Node.js를 위한 Promise API를 활용하는 HTTP 비동기 통신 라이브러리이다.
+- 백엔드랑 프론트엔드랑 통신을 쉽게 하기 위해 Ajax와 더불어 사용한다.
+
